@@ -92,6 +92,7 @@ namespace SimpleCQRS
         {
             this.AsDynamic().Apply(@event);
             if(isNew) _changes.Add(@event);
+            Version++;
         }
     }
 
