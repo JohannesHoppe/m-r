@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 
 namespace SimpleCQRS
@@ -12,7 +13,7 @@ namespace SimpleCQRS
         {
             List<Action<IMessage>> handlers;
 
-            if(!_routes.TryGetValue(typeof(T), out handlers))
+            if (!_routes.TryGetValue(typeof(T), out handlers))
             {
                 handlers = new List<Action<IMessage>>();
                 _routes.Add(typeof(T), handlers);
@@ -27,8 +28,14 @@ namespace SimpleCQRS
 
             if (_routes.TryGetValue(typeof(T), out handlers))
             {
-                if (handlers.Count != 1) throw new InvalidOperationException("cannot send to more than one handler");
-                handlers[0](command);
+                try
+                {
+                    handlers.Single().Invoke(command);
+                }
+                catch (InvalidOperationException ex)
+                {
+                    throw new InvalidOperationException("cannot send to more than one handler", ex);
+                }
             }
             else
             {
@@ -42,7 +49,7 @@ namespace SimpleCQRS
 
             if (!_routes.TryGetValue(@event.GetType(), out handlers)) return;
 
-            foreach(var handler in handlers)
+            foreach (var handler in handlers)
             {
                 //dispatch on thread pool for added awesomeness
                 var handler1 = handler;
