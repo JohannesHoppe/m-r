@@ -33,6 +33,8 @@ namespace SimpleCQRS
         // push atomic aggregate changes to local history for further processing (EventStore.SaveEvents)
         private void ApplyChange(Event @event, bool isNew)
         {
+            // TODO: replace this with https://github.com/davidebbo/ReflectionMagic
+            // remove also InfrastructureCrap.DontBotherReadingItsNotImportant.cs
             this.AsDynamic().Apply(@event);
             if(isNew) _changes.Add(@event);
             Version++;
