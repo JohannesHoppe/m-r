@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SimpleCQRS
+﻿namespace SimpleCQRS
 {
     public class InventoryCommandHandlers
     {

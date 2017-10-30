@@ -6,15 +6,15 @@ namespace SimpleCQRS
 {
     public class FakeBus : ICommandSender, IEventPublisher
     {
-        private readonly Dictionary<Type, List<Action<Message>>> _routes = new Dictionary<Type, List<Action<Message>>>();
+        private readonly Dictionary<Type, List<Action<IMessage>>> _routes = new Dictionary<Type, List<Action<IMessage>>>();
 
-        public void RegisterHandler<T>(Action<T> handler) where T : Message
+        public void RegisterHandler<T>(Action<T> handler) where T : IMessage
         {
-            List<Action<Message>> handlers;
+            List<Action<IMessage>> handlers;
 
             if(!_routes.TryGetValue(typeof(T), out handlers))
             {
-                handlers = new List<Action<Message>>();
+                handlers = new List<Action<IMessage>>();
                 _routes.Add(typeof(T), handlers);
             }
 
@@ -23,7 +23,7 @@ namespace SimpleCQRS
 
         public void Send<T>(T command) where T : Command
         {
-            List<Action<Message>> handlers;
+            List<Action<IMessage>> handlers;
 
             if (_routes.TryGetValue(typeof(T), out handlers))
             {
@@ -38,7 +38,7 @@ namespace SimpleCQRS
 
         public void Publish<T>(T @event) where T : Event
         {
-            List<Action<Message>> handlers;
+            List<Action<IMessage>> handlers;
 
             if (!_routes.TryGetValue(@event.GetType(), out handlers)) return;
 
