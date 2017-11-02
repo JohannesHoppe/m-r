@@ -79,9 +79,15 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\IMessage.cs" />
-    <Compile Include="ReadModel.cs" />
     <Compile Include="Commands\RemoveItemsFromInventory.cs" />
     <Compile Include="Commands\RenameInventoryItem.cs" />
+    <Compile Include="ReadModel\BullShitDatabase.cs" />
+    <Compile Include="ReadModel\InventoryItemDetailsDto.cs" />
+    <Compile Include="ReadModel\InventoryItemDetailView.cs" />
+    <Compile Include="ReadModel\InventoryItemListDto.cs" />
+    <Compile Include="ReadModel\InventoryListView.cs" />
+    <Compile Include="ReadModel\IReadModelFacade.cs" />
+    <Compile Include="ReadModel\ReadModelFacade.cs" />
     <Compile Include="Repository.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -104,8 +110,6 @@
   <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ReadModel\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
